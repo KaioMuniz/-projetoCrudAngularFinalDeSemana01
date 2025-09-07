@@ -1,6 +1,12 @@
 <div class="container mt-4">
   <h2 class="mb-3">Lista de Músicas</h2>
-  
+
+  <!-- Mensagem de erro -->
+  <div *ngIf="mensagemErro()" class="alert alert-danger">
+    {{ mensagemErro() }}
+  </div>
+
+  <!-- Botão criar nova música -->
   <button routerLink="/musica-create" class="btn btn-primary mb-3">Nova Música</button>
 
   <table class="table table-striped">
@@ -9,15 +15,21 @@
         <th>ID</th>
         <th>Título</th>
         <th>Artista</th>
+        <th>Álbum</th>
         <th>Ano</th>
         <th>Ações</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr *ngFor="let musica of musicas()">
+        <td>{{ musica.id }}</td>
+        <td>{{ musica.titulo }}</td>
+        <td>{{ musica.artista }}</td>
+        <td>{{ musica.album }}</td>
+        <td>{{ musica.ano }}</td>
         <td>
-          <button class="btn btn-sm btn-warning me-2">Editar</button>
-          <button class="btn btn-sm btn-danger">Deletar</button>
+          <button [routerLink]="['/musica-edit', musica.id]" class="btn btn-sm btn-warning me-2">Editar</button>
+          <button class="btn btn-sm btn-danger" (click)="deletarMusica(musica.id)">Deletar</button>
         </td>
       </tr>
     </tbody>

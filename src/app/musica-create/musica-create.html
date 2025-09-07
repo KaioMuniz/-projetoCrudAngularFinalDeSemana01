@@ -1,22 +1,47 @@
 <div class="container mt-4">
   <h2 class="mb-3">Criar Nova Música</h2>
-  <form>
+
+  <!-- Mensagens de sucesso/erro -->
+  <div *ngIf="mensagemSucesso()" class="alert alert-success">
+    {{ mensagemSucesso() }}
+  </div>
+  <div *ngIf="mensagemErro()" class="alert alert-danger">
+    {{ mensagemErro() }}
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
     <div class="mb-3">
       <label for="titulo" class="form-label">Título</label>
-      <input type="text" id="titulo" class="form-control"  name="titulo" required>
+      <input type="text" id="titulo" class="form-control" formControlName="titulo" placeholder="Digite o título da música">
+      <div *ngIf="form.get('titulo')?.invalid && form.get('titulo')?.touched" class="text-danger">
+        O título é obrigatório.
+      </div>
     </div>
 
     <div class="mb-3">
       <label for="artista" class="form-label">Artista</label>
-      <input type="text" id="artista" class="form-control"  name="artista" required>
+      <input type="text" id="artista" class="form-control" formControlName="artista" placeholder="Digite o nome do artista">
+      <div *ngIf="form.get('artista')?.invalid && form.get('artista')?.touched" class="text-danger">
+        O artista é obrigatório.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="album" class="form-label">Álbum</label>
+      <input type="text" id="album" class="form-control" formControlName="album" placeholder="Digite o nome do álbum (opcional)">
     </div>
 
     <div class="mb-3">
       <label for="ano" class="form-label">Ano</label>
-      <input type="number" id="ano" class="form-control"  name="ano" required>
+      <input type="number" id="ano" class="form-control" formControlName="ano" placeholder="Ex: 2025">
+      <div *ngIf="form.get('ano')?.invalid && form.get('ano')?.touched" class="text-danger">
+        Ano inválido. Use formato YYYY.
+      </div>
     </div>
 
-    <button type="submit" class="btn btn-success">Salvar</button>
-    <button routerLink="/musica" class="btn btn-secondary ms-2">Cancelar</button>
+    <button type="submit" class="btn btn-success" [disabled]="form.invalid">Salvar</button>
+    <button routerLink="/musica" type="button" class="btn btn-secondary ms-2">Cancelar</button>
+
   </form>
 </div>
